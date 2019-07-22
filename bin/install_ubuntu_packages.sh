@@ -1,5 +1,5 @@
 #! /bin/bash
-
+ 
 curdir=$(dirname "$(readlink -f "$0")")
 pack_fn="$curdir/../ubuntu_packages_to_install.txt"
 echo
@@ -12,4 +12,4 @@ while read line; do
     echo "--------------------------------------"
     sleep 0.3
     sudo apt-get install --yes $line
-done <package_names.txt
+done <"$pack_fn"
