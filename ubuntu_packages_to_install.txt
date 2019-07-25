@@ -1,3 +1,5 @@
 g++
 make
 tmux
+apache2
+
