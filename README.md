@@ -151,13 +151,71 @@ cd perl-aws-ec2-ami/bin
    ```
    tail -f ~/perlbrew/build.perl-5.30.0.log
    ```
-- Install Perl module `Mojolicious`:  
+- Install Perl
+   module [`Mojolicious`](https://metacpan.org/pod/Mojolicious):  
     ``` 
     cpanm Mojolicious
    ```
-
+   Note: This will also install the `hypnotoad` web server. See 
+   [`Mojo::Server::Hypnotoad`](https://metacpan.org/pod/Mojo::Server::Hypnotoad).
+   
 - Install apache2 config file for with reverse proxy settings:  
    ```
    sudo install_apache_conf.sh
    ```
-   
+
+## Testing the web server
+
+Go to the `perl` folder of the repository, there is a test script
+`test-script.pl`:
+
+```
+use feature qw(say);
+use strict;
+use warnings;
+
+use Mojolicious::Lite;
+app->config(
+    hypnotoad => {
+        listen => [ 'http://127.0.0.1:8082/' ],
+        proxy  => 1,
+    },
+);
+ 
+get '/' => sub {
+  my $c = shift;
+  $c->render(template => 'index');
+};
+get '/foo' => sub {
+  my $c    = shift;
+  my $user = $c->param('user');
+  $c->render(text => "Hello user.");
+};
+app->start;
+
+__DATA__
+ 
+@@ index.html.ep
+<!DOCTYPE html>
+<html>
+  <head><title>Detected</title></head>
+  <body>HTML was detected.</body>
+</html>
+```
+ 
+- Start the `hypnotoad` web server with this script:  
+    ```
+    hypnotoad test-script.pl 
+    ```
+- Then on your home device, open a web browser, and type in `http://`
+  followed by the elastic IP we allocated in the step above. In my
+  case the IP was `3.16.173.247`, so i typed `http://3.16.173.247`.
+  This should give you the following response in the browser:  
+  ```
+  HTML was detected.
+  ```
+  Then try to access the route `foo` ( `http://3.16.173.247/foo` ),
+  which should give you the response:  
+  ```
+  Hello user.
+  ```
