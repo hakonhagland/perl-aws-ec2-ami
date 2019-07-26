@@ -5,6 +5,12 @@ use strict;
 use warnings;
 
 use Mojolicious::Lite;
+app->config(
+    hypnotoad => {
+        listen => [ 'http://127.0.0.1:8082/' ],
+        proxy  => 1,
+    },
+);
  
 get '/' => sub {
   my $c = shift;
