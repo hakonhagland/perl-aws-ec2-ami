@@ -130,6 +130,34 @@ git config --global user.name "Your_user Name"
 git config --global user.email your_user_name@example.com
 git config --global core.editor vim
 git clone https://github.com/hakonhagland/perl-aws-ec2-ami.git
-cd perl-aws-ec2-ami
-bin/install_ubuntu_packages.sh
+cd perl-aws-ec2-ami/bin
+./install_ubuntu_packages.sh
 ```
+
+- After running the last
+   script, [`tmux`](https://github.com/tmux/tmux/wiki) should be
+   installed. Now run it   
+   ```
+   tmux
+   ```
+- and continue working from within the `tmux` session. Install
+`perlbrew` and `perl` version 5.30 by running the following script:   
+
+   ```
+   ./install_perlbrew.sh
+   ```
+   It will take some minutes to complete. In the meanwhile, open a new
+   `tmux` window by pressing `CTRL+b c` and type:   
+   ```
+   tail -f ~/perlbrew/build.perl-5.30.0.log
+   ```
+- Install Perl module `Mojolicious`:  
+    ``` 
+    cpanm Mojolicious
+   ```
+
+- Install apache2 config file for with reverse proxy settings:  
+   ```
+   sudo install_apache_conf.sh
+   ```
+   

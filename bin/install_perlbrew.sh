@@ -12,7 +12,8 @@ perlbrew install "$version"
 perlbrew install-cpanm
 perlbrew switch  "$version"
 cp "$curdir/activate_perlbrew_bashrc.sh" ~/
-echo '[[ -f ~/.perlbrew.sh ]] && source ~/.perlbrew.sh' >> ~/.bashrc
+echo '[[ -f ~/activate_perlbrew_bashrc.sh ]] && source ~/activate_perlbrew_bashrc.sh' \
+  >> ~/.bashrc
 
 # Pyenv
 
